@@ -42,5 +42,9 @@ public class PollService {
     public Poll findLast() {
         return this.pollDaoImpl.findLast();
     }
+    
+    public Poll savePoll(Poll newPoll) {
+        return this.pollDaoImpl.save(newPoll);
+    }
 
 }

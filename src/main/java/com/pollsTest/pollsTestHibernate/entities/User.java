@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -124,6 +126,18 @@ public class User implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+    
+    @PrePersist
+    public void prePersist() {
+        Date date = new Date();
+        this.createdAt = date;
+        this.updatedAt = date;
+    }
+    
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = new Date();
     }
 
     @Override

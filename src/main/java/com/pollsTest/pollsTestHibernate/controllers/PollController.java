@@ -9,12 +9,15 @@ import com.pollsTest.pollsTestHibernate.entities.Poll;
 import com.pollsTest.pollsTestHibernate.entities.QuestionAnswer;
 import com.pollsTest.pollsTestHibernate.services.PollService;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,24 +55,12 @@ public class PollController {
     }
     
     
-    /*@RequestMapping(value = "/poll/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/poll/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String savePoll(@RequestBody Map<String, Object> request) {
-        Poll newPoll;
-        Gson gsonResponse = new Gson();
-        String response;
-        try {
-            newPoll = this.pollService.savePoll(request);
-            response = gsonResponse.toJson(newPoll);
-        } catch (Exception ex) {
-            Map<String, Object> exception = new HashMap<>();
-            exception.put("status", 500);
-            exception.put("message", "Poll could not be saved");
-            exception.put("error", ex.toString());
-            response = gsonResponse.toJson(exception);
-        }
-        return response;
-    }*/
+    public Poll savePoll(@RequestBody Poll poll) {
+        System.out.println(poll);
+        return this.pollService.savePoll(poll);
+    }
     
     @RequestMapping(value = "/poll/last", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

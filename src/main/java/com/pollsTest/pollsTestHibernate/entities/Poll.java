@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PostPersist;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -64,7 +68,7 @@ public class Poll implements Serializable {
     @Column(name = "updatedAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "pollId", referencedColumnName = "id")
     private List<Question> questions;
     
@@ -142,6 +146,25 @@ public class Poll implements Serializable {
     public void setQuestionAnswerList(List<QuestionAnswer> questionAnswerList) {
         this.questionAnswerList = questionAnswerList;
     }*/
+    
+    @PrePersist
+    public void prePersist() {
+        Date date = new Date();
+        this.createdAt = date;
+        this.updatedAt = date;
+    }
+    
+    @PostPersist
+    public void postPersist() {
+        this.questions.forEach((question) -> {
+            question.setPollId(this.getId());
+        });
+    }
+    
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = new Date();
+    }
 
     @Override
     public int hashCode() {

@@ -9,6 +9,7 @@ import com.pollsTest.pollsTestHibernate.dao.AbstractDAO;
 import com.pollsTest.pollsTestHibernate.entities.Poll;
 import java.util.List;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -37,6 +38,7 @@ public class PollDAOImpl extends AbstractDAO implements PollDAO {
     }
 
     @Override
+    @Transactional
     public Poll save(Poll poll) {
         super.save(poll);
         super.getEntityManager().flush();
