@@ -5,15 +5,11 @@
  */
 package com.pollsTest.pollsTestHibernate.controllers;
 
-import com.pollsTest.pollsTestHibernate.dao.UserDAOImpl;
 import com.pollsTest.pollsTestHibernate.entities.User;
-import java.util.HashMap;
+import com.pollsTest.pollsTestHibernate.services.AuthService;
 import java.util.Map;
-import javax.persistence.NoResultException;
-import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.MediaType;;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,30 +24,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     
     @Autowired
-    private UserDAOImpl userDaoImpl;
+    private AuthService authService;
     
     @RequestMapping(value = "/auth/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<String, Object> login(@RequestParam Map<String, Object> request) {
+    public User login(@RequestParam Map<String, Object> request) {
         String username = (String) request.get("username");
         String password = (String) request.get("password");
-        HashMap<String, Object> response = new HashMap<>();
-        try {
-            User user = this.userDaoImpl.findOne(username, password);
-            response.put("status", 200);
-            response.put("user", user);
-        }
-        catch(NoResultException nr) {
-            response.put("status", 401);
-            response.put("message", "Unauthenticated");
-        }
-        return response;
+        
+        User user = this.authService.login(username, password);
+        return user;
     }
     
     @RequestMapping(value = "/auth/logout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String logout() {
-        return "";
+    public void logout() {
+        this.authService.logout();
     }
     
 }

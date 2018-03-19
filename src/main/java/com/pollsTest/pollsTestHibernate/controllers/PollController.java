@@ -7,6 +7,7 @@ package com.pollsTest.pollsTestHibernate.controllers;
 
 import com.pollsTest.pollsTestHibernate.dao.PollDAOImpl;
 import com.pollsTest.pollsTestHibernate.entities.Poll;
+import com.pollsTest.pollsTestHibernate.services.PollService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,19 +24,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class PollController {
     
     @Autowired
-    private PollDAOImpl pollDaoImpl;
+    private PollService pollService;
     
     @RequestMapping(value = "/poll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Poll> getPolls() {
-        List<Poll> polls = this.pollDaoImpl.findAll();
+        List<Poll> polls = this.pollService.findAll();
         return polls;
     }
     
     @RequestMapping(value = "/last", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Poll getLastPoll() {
-        return this.pollDaoImpl.findLast();
+        return this.pollService.findLast();
     }
     
 }
