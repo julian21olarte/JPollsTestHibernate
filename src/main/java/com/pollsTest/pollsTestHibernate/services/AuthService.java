@@ -5,14 +5,16 @@
  */
 package com.pollsTest.pollsTestHibernate.services;
 
-import com.pollsTest.pollsTestHibernate.dao.UserDAOImpl;
+import com.pollsTest.pollsTestHibernate.dao.UserDAO.UserDAOImpl;
 import com.pollsTest.pollsTestHibernate.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Julian Olarte Torres
  */
+@Service
 public class AuthService {
     
     @Autowired

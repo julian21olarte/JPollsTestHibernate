@@ -42,8 +42,15 @@ public abstract class AbstractDAO<T, PK> {
                 .setMaxResults(1)
                 .getSingleResult();
     }
+    
     public T findByKey(PK key) {
         return (T) this.getEntityManager().find(persistentClass, key);
+    }
+    
+    public T findAllByProperty(String propertyName, PK property) {
+        return (T) this.getEntityManager()
+                .createQuery(String.format("SELECT t FROM %s t WHERE t.%s = %s", persistentClass.getName(), propertyName, property), persistentClass)
+                .getResultList();
     }
  
     public void save(T entity) {

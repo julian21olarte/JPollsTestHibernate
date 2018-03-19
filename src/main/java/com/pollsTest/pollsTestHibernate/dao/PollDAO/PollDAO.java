@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pollsTest.pollsTestHibernate.dao;
+package com.pollsTest.pollsTestHibernate.dao.PollDAO;
 
 import com.pollsTest.pollsTestHibernate.entities.Poll;
 import java.util.List;
@@ -17,7 +17,7 @@ public interface PollDAO {
     
     List<Poll> findAll();
     
-    Poll findById(Long id);
+    Poll findById(Integer id);
             
     Poll findLast();
     
@@ -25,7 +25,7 @@ public interface PollDAO {
     
     void delete(Poll poll);
     
-    void deleteById(Long id);
+    void deleteById(Integer id);
     
     Poll update(Poll poll);
     

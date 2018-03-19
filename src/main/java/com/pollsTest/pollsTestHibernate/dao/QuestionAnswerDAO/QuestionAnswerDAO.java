@@ -3,21 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pollsTest.pollsTestHibernate.dao;
+package com.pollsTest.pollsTestHibernate.dao.QuestionAnswerDAO;
 
-import com.pollsTest.pollsTestHibernate.entities.User;
+import com.pollsTest.pollsTestHibernate.entities.QuestionAnswer;
 import java.util.List;
 
 /**
  *
  * @author Julian Olarte Torres
  */
-public interface UserDAO {
+public interface QuestionAnswerDAO {
     
-    List<User> findAll();
-    
-    User findById(Long id);
-    
-    User findOne(String username, String password);
+    List<QuestionAnswer> findByPollId(Integer id);
     
 }

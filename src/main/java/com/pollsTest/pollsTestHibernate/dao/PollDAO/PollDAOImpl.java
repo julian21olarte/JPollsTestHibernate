@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pollsTest.pollsTestHibernate.dao;
+package com.pollsTest.pollsTestHibernate.dao.PollDAO;
 
+import com.pollsTest.pollsTestHibernate.dao.AbstractDAO;
 import com.pollsTest.pollsTestHibernate.entities.Poll;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -26,12 +27,12 @@ public class PollDAOImpl extends AbstractDAO implements PollDAO {
     }
 
     @Override
-    public Poll findById(Long id) {
+    public Poll findById(Integer id) {
        return (Poll) super.findByKey(id);
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         super.findByKey(id);
     }
 

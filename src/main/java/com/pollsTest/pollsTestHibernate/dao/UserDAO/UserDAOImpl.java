@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pollsTest.pollsTestHibernate.dao;
+package com.pollsTest.pollsTestHibernate.dao.UserDAO;
 
+import com.pollsTest.pollsTestHibernate.dao.AbstractDAO;
 import com.pollsTest.pollsTestHibernate.entities.User;
 import java.util.List;
 import javax.persistence.NoResultException;
-import org.hibernate.HibernateException;
 import org.springframework.stereotype.Repository;
 
 /**
