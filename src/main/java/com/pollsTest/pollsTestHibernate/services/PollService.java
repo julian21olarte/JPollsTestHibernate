@@ -46,5 +46,9 @@ public class PollService {
     public Poll savePoll(Poll newPoll) {
         return this.pollDaoImpl.save(newPoll);
     }
+    
+    public Poll updatePoll(Poll pollToUpdate, Integer id) {
+        return this.pollDaoImpl.update(pollToUpdate);
+    }
 
 }

@@ -54,11 +54,13 @@ public abstract class AbstractDAO<T, PK> {
     }
  
     public void save(T entity) {
+        this.getEntityManager().merge(entity);
         this.getEntityManager().persist(entity);
     }
     
-    public T update( final T entity ){
-      return (T) this.getEntityManager().merge(entity);
+    public T update( T entity ){
+        this.getEntityManager().merge(entity);
+        return entity;
    }
  
     public void delete(T entity) {
@@ -66,7 +68,8 @@ public abstract class AbstractDAO<T, PK> {
     }
     
     public void deleteByKey(PK key) {
-        this.getEntityManager().remove( this.findByKey(key) );
+        this.getEntityManager().remove( this.getEntityManager().merge(this.findByKey(key)) );
+        this.getEntityManager().flush();
     }
      
     protected CriteriaBuilder createEntityCriteria(){

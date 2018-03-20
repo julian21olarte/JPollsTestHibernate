@@ -7,6 +7,7 @@ package com.pollsTest.pollsTestHibernate.dao.PollDAO;
 
 import com.pollsTest.pollsTestHibernate.dao.AbstractDAO;
 import com.pollsTest.pollsTestHibernate.entities.Poll;
+import com.pollsTest.pollsTestHibernate.entities.Question;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +34,9 @@ public class PollDAOImpl extends AbstractDAO implements PollDAO {
     }
 
     @Override
+    @Transactional
     public void deleteById(Integer id) {
-        super.findByKey(id);
+        super.deleteByKey(id);
     }
 
     @Override
@@ -51,9 +53,9 @@ public class PollDAOImpl extends AbstractDAO implements PollDAO {
     }
 
     @Override
+    @Transactional
     public Poll update(Poll poll) {
         super.update(poll);
-        super.getEntityManager().flush();
         return (Poll) super.findByKey(poll.getId());
     }
 

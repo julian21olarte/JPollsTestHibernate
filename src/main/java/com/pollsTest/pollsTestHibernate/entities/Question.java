@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -59,22 +60,19 @@ public class Question implements Serializable {
     @Column(name = "createdAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "updatedAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "questionId", referencedColumnName = "id")
     private List<Answer> answers;
     
     @NotNull
     @Column(name = "pollId")
     private Integer pollId;
-    
-    /*@OneToMany
-    @JoinColumn(name = "questionId", referencedColumnName = "id")
-    private List<QuestionAnswer> questionAnswerList;*/
 
     public Question() {
     }
@@ -138,15 +136,6 @@ public class Question implements Serializable {
         this.pollId = pollId;
     }
 
-    /*@XmlTransient
-    public List<QuestionAnswer> getQuestionAnswerList() {
-        return questionAnswerList;
-    }
-
-    public void setQuestionAnswerList(List<QuestionAnswer> questionAnswerList) {
-        this.questionAnswerList = questionAnswerList;
-    }*/
-    
     @PrePersist
     public void prePersist() {
         Date date = new Date();
@@ -156,15 +145,25 @@ public class Question implements Serializable {
     
     @PostPersist
     public void postPersist() {
-        this.answers.forEach((answer) -> {
-            answer.setQuestionId(this.getId());
-        });
+        if(this.answers != null) {
+            this.answers.forEach((Answer answer) -> {
+                answer.setQuestionId(this.getId());
+            });
+        }
     }
     
     @PreUpdate
     public void preUpdate() {
+        System.out.println("PROBANDO EL POLLID DE QUESTION");
+        System.out.println(this.pollId);
         this.updatedAt = new Date();
     }
+    
+    @PostUpdate
+    public void postUpdate() {
+        this.postPersist();
+    }
+
 
     @Override
     public int hashCode() {

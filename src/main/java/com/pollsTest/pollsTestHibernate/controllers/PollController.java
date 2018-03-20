@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,8 +57,13 @@ public class PollController {
     @RequestMapping(value = "/poll/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Poll savePoll(@RequestBody Poll poll) {
-        System.out.println(poll);
         return this.pollService.savePoll(poll);
+    }
+    
+    @RequestMapping(value = "/poll/update/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Poll updatePoll(@RequestBody Poll poll, @PathVariable("id") Integer id) {
+        return this.pollService.updatePoll(poll, id);
     }
     
     @RequestMapping(value = "/poll/last", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

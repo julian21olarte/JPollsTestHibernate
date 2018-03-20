@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -63,18 +64,15 @@ public class Poll implements Serializable {
     @Column(name = "createdAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+        
     @Basic(optional = false)
     @NotNull
     @Column(name = "updatedAt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "pollId", referencedColumnName = "id")
     private List<Question> questions;
-    
-    /*@OneToMany
-    @JoinColumn(name = "pollId", referencedColumnName = "id")
-    private List<QuestionAnswer> questionAnswerList;*/
 
     public Poll() {
     }
@@ -137,15 +135,6 @@ public class Poll implements Serializable {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
-
-    /*@XmlTransient
-    public List<QuestionAnswer> getQuestionAnswerList() {
-        return questionAnswerList;
-    }
-
-    public void setQuestionAnswerList(List<QuestionAnswer> questionAnswerList) {
-        this.questionAnswerList = questionAnswerList;
-    }*/
     
     @PrePersist
     public void prePersist() {
@@ -155,15 +144,21 @@ public class Poll implements Serializable {
     }
     
     @PostPersist
+    @PostUpdate
     public void postPersist() {
-        this.questions.forEach((question) -> {
-            question.setPollId(this.getId());
-        });
+        if(this.questions != null) {
+            this.questions.forEach((question) -> {
+                question.setPollId(this.getId());
+            });
+        }
     }
     
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = new Date();
+        this.questions.forEach((question) -> {
+            question.setPollId(this.getId());
+        });
     }
 
     @Override
